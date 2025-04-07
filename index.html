@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>El meu portfoli</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        text-decoration: none;
+        list-style: none;
+      }
+
+      body { 
+        background-color: #f7f7f2;
+        color: #1e1e24;
+        margin: 0;
+        overflow-x: hidden;
+        font-size: 16px;
+      }
+
+      .home {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: 100vh;
+        padding: 2rem 4rem 0 4rem;
+        gap: 2rem;
+        align-items: center;
+        background: linear-gradient(250deg, #ffffff, #f7f7f2);
+        color: rgb(0, 0, 0);
+        position: relative;
+      }
+
+      .home-img img {
+        width: 80%;
+        max-width: 400px;
+        height: auto;
+        border-radius: 20px;
+        transition: transform 0.4s ease;
+      }
+
+      .home-img img:hover {
+        transform: scale(1.1);
+      }
+
+      .home-btn {
+        margin-top: 1rem;
+      }
+
+      .home-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-left: 0;
+        z-index: 2;
+      }
+
+      .home-text h2 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      .home-text h3 {
+        font-weight: 500;
+        margin-bottom: 1rem;
+        position: relative;
+        padding-left: 6rem;
+        animation: slideIn 1s ease-out;
+      }
+
+      .home-text p {
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        color: #000000;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        color: #000000;
+        border: 2px solid #000000;
+        font-weight: 500;
+        font-size: 14px;
+        background: transparent;
+        transition: all 0.3s ease;
+        margin: 0.5rem 0;
+      }
+
+      .btn:hover {
+        background: #f7f7f2;
+        color: #1e1e24;
+        transform: translateY(-3px);
+      }
+
+      .socials-icons {
+        position: absolute;
+        top: 50%;
+        left: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        transform: translateY(-50%);
+        z-index: 3;
+      }
+
+      .socials-icons i {
+        color: #000000;
+        font-size: 2.5rem;
+        transition: transform 0.4s ease, color 0.3s ease;
+      }
+
+      .socials-icons i:hover {
+        transform: rotate(360deg);
+        color: #214dda;
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideIn {
+        0% {
+          opacity: 0;
+          transform: translateX(-30px);
+        }  
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+        padding: 50px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .section {
+        width: 90%; /* Cambiado de 80% a 90% */
+        max-width: 1000px; /* Cambiado de 800px a 1000px */
+        padding: 50px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      /* Galería Pinterest con movimiento */
+      .pinterest-gallery {
+        position: absolute;
+        top: 0;
+        right: 5%;
+        width: 350px;
+        height: 100vh;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .gallery-track {
+        display: flex;
+        gap: 15px;
+        height: 200%;
+        will-change: transform;
+        animation: scroll 20s linear infinite; /* velocitat moviment fotos */
+      }
+
+      .gallery-column {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 50%;
+      }
+
+      .pinterest-gallery img {
+        width: 100%;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        object-fit: cover;
+        aspect-ratio: 3/4;
+        transition: transform 0.3s ease;
+      }
+
+      .pinterest-gallery img:hover {
+        transform: scale(1.05) rotate(2deg);
+        z-index: 10;
+      }
+
+      /* Estilo Pinterest - columnas escalonadas con movimiento */
+      .gallery-column:first-child {
+        margin-top: 50px; /* Mueve la primera columna hacia arriba */
+      }
+
+      .gallery-column:last-child {
+        margin-top: -150px; /* Mueve la segunda columna hacia abajo */
+      }
+
+      /* Animación de desplazamiento */
+      @keyframes scroll {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-50%);
+        }
+      }
+
+      /* Efecto de pausa al hacer hover */
+      .pinterest-gallery:hover .gallery-track {
+        animation-play-state: paused;
+      }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .pinterest-gallery {
+          width: 300px;
+        }
+      }
+
+      @media (max-width: 992px) {
+        .home {
+          grid-template-columns: 1fr;
+          padding: 2rem;
+        }
+        
+        .pinterest-gallery {
+          position: relative;
+          width: 100%;
+          right: auto;
+          height: auto;
+          margin-top: 2rem;
+          display: flex;
+          justify-content: center;
+        }
+        
+        .gallery-track {
+          width: 80%;
+          max-width: 500px;
+          height: 150%;
+        }
+        
+        .gallery-column:first-child,
+        .gallery-column:last-child {
+          margin-top: 0;
+        }
+        
+        .home-text {
+          order: -1;
+        }
+        
+        .socials-icons {
+          position: static;
+          flex-direction: row;
+          transform: none;
+          justify-content: center;
+          margin-top: 2rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .home-text h2 {
+          font-size: 2.5rem;
+        }
+        
+        .section {
+          width: 95%;
+          padding: 30px;
+        }
+        
+        .gallery-track {
+          width: 100%;
+          height: 120%;
+        }
+      }
+
+      /* Estilo para el canvas de partículas */
+      #particles-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: linear-gradient(250deg, #ffffff, #f7f7f2);
+      }
+
+      /* Estilo para el texto animado */
+      .typing {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 2px solid #000;
+        animation: typing 3s steps(30, end), blink 0.5s step-end infinite alternate;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      @keyframes blink {
+        from {
+          border-color: transparent;
+        }
+        to {
+          border-color: #000;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="particles-js"></div>
+    <section class="home" id="home">
+      <div class="home-text">
+        <h2>Clàudia Parra Roca <i class="ph-bold"></i></h2>
+        <h3>
+          <span class="typing">Desenvolupadora de Pàgines Web</span>
+        </h3>
+        <div class="home-btn">
+          <a
+            href="cvClaudiaParra.pdf"
+            class="btn"
+            download="Curriculum-ClàudiaParra.pdf"
+          >
+            Descarrega el meu CV <i class="ph ph-read-cv-logo"></i>
+          </a>
+        </div>
+      </div>
+      
+      <div class="pinterest-gallery">
+        <div class="gallery-track">
+          <div class="gallery-column">
+            <img src="images/trading.jpg" alt="Trading" />
+            <img src="images/boxeo.jpg" alt="Boxeo" />
+            <img src="images/ai.jpg" alt="Inteligencia Artificial" />
+            <img src="images/subm.png" alt="Submarinismo" />
+            <img src="images/boxeo.jpg" alt="Boxeo" />
+            <img src="images/ia.jpg" alt="Inteligencia Artificial" />
+            <img src="images/subm.png" alt="Submarinismo" />
+          </div>
+          <div class="gallery-column">
+            <img src="images/trading.jpg" alt="Trading" />
+            <img src="images/playajpg.jpg" alt="Playa" />
+            <img src="images/taurons.jpg" alt="Tiburones" />
+            <img src="images/amanecer.jpg" alt="Amanecer" />
+            <img src="images/trading.jpg" alt="Trading" />
+            <img src="images/playajpg.jpg" alt="Playa" /> 
+            <img src="images/taurons.jpg" alt="Tiburones" />
+            <img src="images/amanecer.jpg" alt="Amanecer" />
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="socials-icons">
+      <a
+        href="https://www.instagram.com/claaudia.parra/"
+        target="_blank"
+        aria-label="Instagram"
+      >
+        <i class="ph-bold ph-instagram-logo"></i>
+      </a>
+      <a
+        href="https://www.infojobs.net/candidate/cv/view/index.xhtml?dgv=13598822645349051167"
+        target="_blank"
+        aria-label="infojobs"
+      >
+        <i class="ph-bold ph-linkedin-logo"></i>
+      </a>
+      <a
+        href="https://github.com/ClaudiaParraRoca"
+        target="_blank"
+        aria-label="GitHub"
+      >
+        <i class="ph-bold ph-github-logo"></i>
+      </a>
+    </div>
+
+    <section class="container">
+      <div class="section" id="about" style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px; text-align: center;">
+          <img src="ruta-a-tu-imagen-perfil.jpg" alt="Sobre Mi" style="width: 100%; max-width: 300px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease;">
+        </div>
+        <div style="flex: 2; min-width: 300px;">
+          <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Sobre Mi</h2>
+          <p style="font-size: 1.1rem; line-height: 1.8; color: #333;">
+            Hola! Sóc Clàudia Parra Roca, una estudiant apassionada pel món de la informàtica amb experiència en la 
+            creació de llocs web dinàmics i atractius. <br>
+            Actualment, estic finalitzant el cicle formatiu superior de Desenvolupament d'Aplicacions Web,
+            tot i que ja estic a la recta final, no tinc pensat deixar d'estudiar encara.
+            M'encantaria aprofundir encara més en les noves tecnologies, especialment en el camp de la Intel·ligència
+            Artificial. <br> <br> A nivell més personal soc una persona molt activa a la que li agrada viatjar, l'esport, sobretot el boxe i el 
+            submarinisme i, tot i que no m'hi dedico professionalment, m'agrada el trading i les inversions. <br> <br>  
+            Aquestes aficions em permeten explorar noves perspectives i mantenir-me en constant evolució.
+
+            
+          </p>
+          <a href="#contact" class="btn" style="margin-top: 1rem;">Contacta'm</a>
+        </div>
+      </div>
+      <div class="section" id="skills">
+        <h2>Llenguatges i Eines</h2>
+        <p>Alguns dels llenguatges, frameworks i eines que utilitzo en el meu treball.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin-top: 2rem;">
+          <!-- Frontend -->
+          <a href="https://simpleicons.org/icons/html5.svg" data-lightbox="skills" data-title="HTML5" style="text-align: center; width: 120px;">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/html5.svg" alt="HTML5" style="width: 80px; height: 80px;" />
+            <p>HTML5</p>
+          </a>
+          <a href="https://simpleicons.org/icons/css3.svg" data-lightbox="skills" data-title="CSS3" style="text-align: center; width: 120px;">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/css3.svg" alt="CSS3" style="width: 80px; height: 80px;" />
+            <p>CSS3</p>
+          </a>
+          <a href="https://simpleicons.org/icons/javascript.svg" data-lightbox="skills" data-title="JavaScript" style="text-align: center; width: 120px;">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/javascript.svg" alt="JavaScript" style="width: 80px; height: 80px;" />
+            <p>JavaScript</p>
+          </a>
+          <a href="https://simpleicons.org/icons/bootstrap.svg" data-lightbox="skills" data-title="Bootstrap" style="text-align: center; width: 120px;">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/bootstrap.svg" alt="Bootstrap" style="width: 80px; height: 80px;" />
+            <p>Bootstrap</p>
+          </a>
+          <a href="https://vuejs.org/" data-lightbox="skills" data-title="Vue.js" style="text-align: center; width: 120px;">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/vuedotjs.svg" alt="Vue.js" style="width: 80px; height: 80px;" />
+            <p>Vue.js</p>
+          </a>
+          <a href="https://simpleicons.org/icons/prime.svg" data-lightbox="skills" data-title="PrimeVue" style="text-align: center; width: 120px;">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/prime.svg" alt="PrimeVue" style="width: 80px; height: 80px;" />
+            <p>PrimeVue</p>
+          </a>
+          <!-- Backend -->
+          <a href="https://simpleicons.org/icons/mysql.svg" data-lightbox="skills" data-title="MySQL" style="text-align: center; width: 120px;">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/mysql.svg" alt="MySQL" style="width: 80px; height: 80px;" />
+            <p>MySQL</p>
+          </a>
+          <!-- Tools -->
+          <a href="https://simpleicons.org/icons/github.svg" data-lightbox="skills" data-title="GitHub" style="text-align: center; width: 120px;">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/github.svg" alt="GitHub" style="width: 80px; height: 80px;" />
+            <p>GitHub</p>
+          </a>
+          <a href="https://simpleicons.org/icons/amazonaws.svg" data-lightbox="skills" data-title="AWS" style="text-align: center; width: 120px;">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/amazonaws.svg" alt="AWS" style="width: 80px; height: 80px;" />
+            <p>AWS</p>
+          </a>
+        </div>
+      </div>
+      </div>
+      <div class="section" id="contact">
+        <h2>Contacte</h2>
+        <p>Adreça electrònica: cparraroca@gmail.com</p>
+        <p>Telèfon: 647 99 69 48</p>
+        <br>
+        <p> Envia'm un correu!</p>
+        <form action="https://formspree.io/f/xdkewego" method="POST" style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; align-items: center;">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; width: 50%;">
+            <label for="name">Nom:</label>
+            <input type="text" id="name" name="name" required style="padding: 0.5rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;" />
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; width: 50%;">
+            <label for="email">Correu electrònic:</label>
+            <input type="email" id="email" name="email" required style="padding: 0.5rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;" />
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; width: 50%;">
+            <label for="message">Missatge:</label>
+            <textarea id="message" name="message" rows="5" required style="padding: 0.5rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;"></textarea>
+          </div>
+          <button type="submit" class="btn" style="padding: 0.75rem 1.5rem; align-self: center;">Enviar</button>
+        </form>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <script>
+      /* Configuración de partículas */
+      particlesJS("particles-js", {
+        particles: {
+          number: {
+            value: 80,
+            density: {
+              enable: true,
+              value_area: 800
+            }
+          },
+          color: {
+            value: "#000000"
+          },
+          shape: {
+            type: "circle",
+            stroke: {
+              width: 0,
+              color: "#000000"
+            },
+            polygon: {
+              nb_sides: 5
+            }
+          },
+          opacity: {
+            value: 0.5,
+            random: false,
+            anim: {
+              enable: false,
+              speed: 1,
+              opacity_min: 0.1,
+              sync: false
+            }
+          },
+          size: {
+            value: 3,
+            random: true,
+            anim: {
+              enable: false,
+              speed: 40,
+              size_min: 0.1,
+              sync: false
+            }
+          },
+          line_linked: {
+            enable: true,
+            distance: 150,
+            color: "#000000",
+            opacity: 0.4,
+            width: 1
+          },
+          move: {
+            enable: true,
+            speed: 6,
+            direction: "none",
+            random: false,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+            attract: {
+              enable: false,
+              rotateX: 600,
+              rotateY: 1200
+            }
+          }
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: true,
+              mode: "repulse"
+            },
+            onclick: {
+              enable: true,
+              mode: "push"
+            },
+            resize: true
+          },
+          modes: {
+            grab: {
+              distance: 400,
+              line_linked: {
+                opacity: 1
+              }
+            },
+            bubble: {
+              distance: 400,
+              size: 40,
+              duration: 2,
+              opacity: 8,
+              speed: 3
+            },
+            repulse: {
+              distance: 200,
+              duration: 0.4
+            },
+            push: {
+              particles_nb: 4
+            },
+            remove: {
+              particles_nb: 2
+            }
+          }
+        },
+        retina_detect: true
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const sections = document.querySelectorAll(".section");
+        
+        const revealSection = () => {
+          sections.forEach((section) => {
+            const sectionTop = section.getBoundingClientRect().top;
+            if (sectionTop < window.innerHeight - 100) {
+              section.classList.add("visible");
+            }
+          });
+        };
+
+        window.addEventListener("scroll", revealSection);
+        revealSection();
+
+        const track = document.querySelector(".carousel-track");
+        const items = document.querySelectorAll(".carousel-item");
+        const prevBtn = document.querySelector(".carousel-btn.prev");
+        const nextBtn = document.querySelector(".carousel-btn.next");
+        let currentIndex = 0;
+
+        const updateCarousel = () => {
+          const width = items[0].getBoundingClientRect().width;
+          track.style.transform = `translateX(-${currentIndex * width}px)`;
+        };
+
+        prevBtn.addEventListener("click", () => {
+          currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
+          updateCarousel();
+        });
+
+        nextBtn.addEventListener("click", () => {
+          currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+          updateCarousel();
+        });
+
+        window.addEventListener("resize", updateCarousel);
+      });
+
+      document.querySelector("#about img").addEventListener("mouseover", (e) => {
+        e.target.style.transform = "scale(1.1)";
+      });
+      document.querySelector("#about img").addEventListener("mouseout", (e) => {
+        e.target.style.transform = "scale(1)";
+      });
+    </script>
+  </body>
+</html>
